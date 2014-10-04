@@ -7,6 +7,16 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <% if current_name %>
+    <p>Welcome, <%= current_name %>! (<%= link_to 'Logout', logout_path %>)</p>
+  <% else %>
+    <p><%= link_to 'Login', new_login_url %></p>
+  <% end %>
+
+  <p>
+    <%= link_to 'Home', root_path %> |
+    <%= link_to 'Restricted', restricted_path %>
+  </p>
 
 <%= yield %>
 
