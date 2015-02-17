@@ -4,20 +4,18 @@ class LoginsController < ApplicationController
 
   def login
     if params[:token]
-      if event = AuthRocket::Event.validate_token(params[:token])
-        u = event.user
-        session[:user_id] = u.id
-        session[:name] = u.name
+      if AuthRocket::Session.from_token(params[:token], within: 60.seconds)
+        session[:ar_token] = params[:token]
       end
     end
     unless require_user
-      redirect_to session[:last_url] || root_path 
+      redirect_to session[:last_url] || root_path
       session[:last_url] = nil
     end
   end
 
   def logout
-    session[:user_id] = nil
+    session[:ar_token] = nil
     redirect_to root_path, notice: 'You have been logged out.'
   end
 

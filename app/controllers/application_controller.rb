@@ -4,11 +4,16 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   def require_user
-    unless session[:user_id]
+    unless current_user
       session[:last_url] = request.get? ? url_for(params) : url_for
       redirect_to new_login_url
     end
   end
+
+  def current_user
+    @_current_user ||= AuthRocket::Session.from_token(session[:ar_token]).try(:user)
+  end
+  helper_method :current_user
 
   def new_login_url
     ENV['AUTHROCKET_LOGIN_URL']
