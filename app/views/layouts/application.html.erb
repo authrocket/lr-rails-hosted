@@ -10,7 +10,10 @@
   <% if current_user %>
     <p>Welcome, <%= current_user.name %>! (<%= link_to 'Logout', logout_path %>)</p>
   <% else %>
-    <p><%= link_to 'Login', new_login_url %></p>
+    <p>
+      <%= link_to 'Signup', new_signup_url %> |
+      <%= link_to 'Login', new_login_url %>
+    </p>
   <% end %>
 
   <%= safe_join [:alert, :notice].map{|f| content_tag(:p, flash[f]) if flash[f] }.compact %>
