@@ -2,7 +2,7 @@ class LoginsController < ApplicationController
 
   def login
     if params[:token]
-      if AuthRocket::Session.from_token(params[:token], within: 60.seconds)
+      if AuthRocket::Session.from_token(params[:token])
         session[:ar_token] = params[:token]
       end
     end
