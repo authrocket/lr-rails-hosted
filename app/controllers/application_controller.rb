@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   def require_user
     unless current_user
-      session[:last_url] = request.get? ? url_for(params) : url_for
+      session[:last_url] = request.get? ? url_for(params.dup.permit!.except(:domain, :host, :port, :protocol, :subdomain)) : url_for
       redirect_to new_login_url
     end
   end
